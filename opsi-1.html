@@ -18,6 +18,29 @@
   .sub{font-size:11px;letter-spacing:3px}
   .date{display:flex;gap:16px;align-items:center}
   .date .vr{width:1.5px;height:46px;background:var(--ink)}
+  /* intro fans, same as opsi-4 */
+  .curtain{background:#8c0d12 url(assets/scene-base.jpg) 50% 0/cover no-repeat !important;position:absolute;inset:0;z-index:20;cursor:pointer;transition:opacity .8s ease 1s;container-type:size;overflow:hidden}
+  .curtain.open{opacity:0;pointer-events:none}
+  .fanL,.fanR{position:absolute;width:166cqw;height:144.6cqw;margin:-72.3cqw 0 0 -83cqw;z-index:1}
+  .fanL{left:4.3cqw;top:36cqh;transform:rotate(96.03deg)} .fanR{left:100cqw;top:37.6cqh;transform:rotate(83.97deg) scaleY(-1)}
+  .fanL img,.fanR img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 8px 14px rgba(40,0,0,.5))}
+  .half{position:absolute;inset:0;z-index:1;transition:transform 1.6s cubic-bezier(.6,0,.2,1)}
+  .hr .fanR{}
+  .curtain.open .hl{transform:translateX(-105%)} .curtain.open .hr{transform:translateX(105%)}
+
+  .fanL{animation:breathe 3s ease-in-out infinite alternate} .fanR{animation:breathe 3s ease-in-out infinite alternate-reverse}
+  .curtain.open .fanL,.curtain.open .fanR{animation:none}
+  @keyframes breathe{to{translate:0 -6px}}
+  .tap{position:absolute;left:50%;top:87cqh;z-index:2;transform:translate(-50%,-50%);background:none !important;box-shadow:none !important;border:0 !important;text-align:center;color:#fbecd2;white-space:nowrap;padding:22px 26px;border-radius:16px;background:rgba(122,10,16,.93);border:1.5px solid #e9b45a;box-shadow:0 0 0 5px rgba(122,10,16,.93),0 0 0 6px rgba(233,180,90,.6),0 12px 30px rgba(30,0,0,.5);max-width:78%;
+    font:11px 'Cinzel',serif;letter-spacing:.3em;animation:blink 1.8s ease-in-out infinite;transition:opacity .4s}
+  .tap .who{display:block;margin-bottom:8px;font:30px 'Pinyon Script',cursive;letter-spacing:0;color:#efc36e}
+  .tap .yth{display:block;font:12px 'Cinzel',serif;letter-spacing:.22em;color:#fbecd2}
+  .tap .who{margin:6px 0 4px;font-size:34px;white-space:normal}
+  .tap .hint{display:block;margin-top:16px;font-size:9px;letter-spacing:.3em;opacity:.8;animation:blink 1.8s ease-in-out infinite}
+  .tap{animation:none;text-shadow:0 1px 6px rgba(60,0,0,.6)}
+  .curtain.open .tap{opacity:0}
+  .stage:not(.go) > :not(.curtain), .stage:not(.go) > :not(.curtain) *{animation-play-state:paused !important}
+  @keyframes blink{50%{opacity:.55}}
 </style>
 </head>
 <body>
@@ -63,7 +86,25 @@
   </div>
 
   <div class="abs in-t" data-anchor="tr" style="--d:.5s;left:283px;top:-7px;width:93px;height:217px"><div class="swing" style="width:100%;height:100%"><img src="assets/figma/lamp.png" alt=""></div></div>
+  <div class="curtain" id="curtain">
+    <div class="half hl"><div class="fanL"><img src="assets/layer-fan.png" alt=""></div></div>
+    <div class="half hr"><div class="fanR"><img src="assets/layer-fan.png" alt=""></div></div>
+    <div class="tap"><span class="yth">YTH. BAPAK/IBU/SAUDARA/I</span><span class="who" id="guest">Nama Tamu</span><span class="yth">DIUNDANG DI ACARA INI</span><span class="hint">KETUK UNTUK MEMBUKA</span></div>
+  </div>
 </div>
+<script>
+  const stage = document.querySelector('.stage');
+  const cur = document.getElementById('curtain');
+  function openFans(){
+    if (cur.classList.contains('open')) return;
+    cur.classList.add('open');
+    setTimeout(() => stage.classList.add('go'), 700);
+  }
+  const to = new URLSearchParams(location.search).get('to');
+  if (to) document.getElementById('guest').textContent = to;
+  cur.addEventListener('click', openFans);
+  if (location.hash === '#open') openFans();
+</script>
 <script src="assets/figma/opsi.js?v=202611250856"></script>
 </body>
 </html>
