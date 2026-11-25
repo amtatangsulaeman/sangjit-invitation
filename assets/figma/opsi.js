@@ -38,7 +38,7 @@
   // personalised "Kepada Yth." line from ?to=Nama (pages with their own cover, like opsi-4, already handle it)
   const to = new URLSearchParams(location.search).get('to');
   const content = stage.querySelector('.content');
-  if (content && !document.getElementById('guest')) {
+  if (content) {
     const y = document.createElement('div');
     y.className = 'yth a';
     y.innerHTML = '<span>KEPADA YTH. BAPAK/IBU/SAUDARA/I</span><b></b>';
@@ -47,7 +47,7 @@
       'padding:6px 18px;border-radius:14px;background:color-mix(in srgb, var(--bg) 88%, transparent);position:relative;z-index:6';
     content.style.zIndex = 6;
     y.firstChild.style.cssText = "font:10px 'Cinzel',serif;letter-spacing:.2em;opacity:.85";
-    y.lastChild.style.cssText = "font:400 24px/1.15 'Pinyon Script',cursive;margin-top:2px";
+    y.lastChild.style.cssText = "font:700 32px/1.05 'Tangerine',cursive;margin-top:2px";
     content.prepend(y);
     content.style.top = 'calc(' + getComputedStyle(content).top + ' - 52px)';
   }
