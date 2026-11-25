@@ -32,8 +32,59 @@
       }
       el.style.translate = dx + 'px ' + dy + 'px';
     });
+    declutter(sw, sh);
+  }
+
+  // Keep every text line clear of the decorations (the guest-name box excepted):
+  // try nudging the content up/down, then shrinking it, then pushing decorations outward.
+  function declutter(sw, sh){
+    const content = stage.querySelector('.content');
+    if (!content) return;
+    content.style.scale = ''; content.style.transformOrigin = '50% 0';
+    const tr = s => (s || '0px 0px').split(' ').map(parseFloat).concat([0, 0]);
+    const [, cdy] = tr(content.style.translate);
+    const decos = [...stage.querySelectorAll('[data-anchor]')].filter(el => el !== content).map(el => {
+      const [dx, dy] = tr(el.style.translate);
+      const w = el.offsetWidth, h = el.offsetHeight, ix = w * 0.12, iy = h * 0.12;   // images have transparent margins
+      return { el, dx, dy, push: 0, x0: el.offsetLeft + dx + ix, y0: el.offsetTop + dy + iy, x1: el.offsetLeft + dx + w - ix, y1: el.offsetTop + dy + h - iy };
+    });
+    const texts = [...content.querySelectorAll('p, .vr')].filter(p => !p.closest('.yth') && !p.closest('.seal'));
+    const cw = content.offsetWidth, cx = content.offsetLeft, ctop = content.offsetTop;
+    const local = texts.map(p => {
+      let x = 0, y = 0, n = p;
+      while (n && n !== content) { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent; }
+      return { x, y, w: p.offsetWidth, h: p.offsetHeight };
+    });
+    const pad = 6;
+    const rects = (k, shift) => local.map(r => ({
+      x0: cx + (r.x - cw / 2) * k - pad, x1: cx + (r.x + r.w - cw / 2) * k + pad,
+      y0: ctop + cdy + shift + r.y * k - pad, y1: ctop + cdy + shift + (r.y + r.h) * k + pad }));
+    const hits = (rs) => {
+      const bad = new Set();
+      rs.forEach(r => {
+        if (r.x0 < 0 || r.x1 > sw || r.y0 < 0 || r.y1 > sh) bad.add('edge');
+        decos.forEach(d => { const o = d.push; if (r.x0 < d.x1 + o && r.x1 > d.x0 + o && r.y0 < d.y1 && r.y1 > d.y0) bad.add(d); });
+      });
+      return bad;
+    };
+    let best = null;
+    for (let k = 1; k >= 0.62 && !best; k -= 0.02)
+      for (const shift of [0, -6, 6, -12, 12, -20, 20, -30, 30, -42, 42, -56, 56])
+        if (!hits(rects(k, shift)).size) { best = { k, shift }; break; }
+    if (!best) {                                   // still crowded: slide offending decorations toward their edge
+      best = { k: 0.62, shift: 0 };
+      for (let i = 0; i < 40; i++) {
+        const bad = hits(rects(best.k, 0)); if (!bad.size) break;
+        bad.forEach(d => { if (d !== 'edge') d.push += ((d.x0 + d.x1) / 2 < sw / 2 ? -6 : 6); });
+      }
+      decos.forEach(d => { if (d.push) d.el.style.translate = (d.dx + d.push) + 'px ' + d.dy + 'px'; });
+    }
+    content.style.scale = best.k;
+    content.style.translate = '0px ' + (cdy + best.shift) + 'px';
+    content.dataset.fit = best.k.toFixed(2) + ' ' + best.shift + ' ' + decos.map(d => d.push).join(',');
   }
   fit(); addEventListener('resize', fit);
+  if (document.fonts) document.fonts.ready.then(fit);
 
   // personalised "Kepada Yth." line from ?to=Nama (pages with their own cover, like opsi-4, already handle it)
   const to = new URLSearchParams(location.search).get('to');
@@ -50,6 +101,7 @@
     y.lastChild.style.cssText = "font:700 32px/1.05 'Tangerine',cursive;margin-top:2px";
     content.prepend(y);
     content.style.top = 'calc(' + getComputedStyle(content).top + ' - 52px)';
+    fit();
   }
 
   // stagger content items
