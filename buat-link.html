@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Buat Link Tamu</title>
+<meta name="robots" content="noindex">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100svh;background:#fbf3e4;color:#3a0508;font:15px/1.5 Georgia,serif;padding:20px 16px 40px}
+  .w{max-width:560px;margin:0 auto}
+  h1{font-size:22px;color:#9e1b1b;margin:0 0 4px}
+  p.h{margin:0 0 18px;color:#7a5a3a;font-size:14px}
+  label{display:block;font-size:13px;font-weight:bold;margin:14px 0 6px;color:#7a1a1a}
+  select,textarea,input{width:100%;font:15px Georgia,serif;padding:10px 12px;border:1px solid #d9b87a;border-radius:10px;background:#fff;color:#3a0508}
+  textarea{min-height:150px}
+  button{margin-top:14px;border:0;border-radius:24px;padding:11px 18px;background:#9e1b1b;color:#fbecd2;font:bold 13px Georgia,serif;letter-spacing:.05em;cursor:pointer}
+  button.sec{background:#fff;color:#9e1b1b;border:1px solid #9e1b1b}
+  .row{display:flex;gap:8px;flex-wrap:wrap}
+  .item{background:#fff;border:1px solid #ead6ad;border-radius:12px;padding:10px 12px;margin-top:10px}
+  .item b{color:#9e1b1b}
+  .item a.l{display:block;font-size:12px;color:#555;word-break:break-all;margin:4px 0 8px}
+  .item .row button{margin:0;padding:7px 12px;font-size:12px}
+</style>
+</head>
+<body>
+<div class="w">
+  <h1>Buat Link Undangan per Tamu</h1>
+  <p class="h">Tulis satu nama per baris. Setiap tamu mendapat link sendiri dengan namanya di bagian "Kepada Yth."</p>
+
+  <label for="tpl">Template</label>
+  <select id="tpl">
+    <option value="opsi-4">Opsi 4 – Kipas</option>
+    <option value="amplop">Amplop</option>
+    <option value="opsi-1">Opsi 1</option>
+    <option value="opsi-2">Opsi 2</option>
+    <option value="opsi-3">Opsi 3</option>
+  </select>
+
+  <label for="names">Nama tamu</label>
+  <textarea id="names" placeholder="Bapak Budi Santoso&#10;Ibu Sari & Keluarga&#10;Kevin"></textarea>
+
+  <label for="msg">Pesan WhatsApp ({nama} dan {link} akan diganti otomatis)</label>
+  <textarea id="msg" style="min-height:110px">Yth. {nama},
+
+Dengan penuh sukacita kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara Sangjit kami.
+
+Buka undangan: {link}
+
+Terima kasih.</textarea>
+
+  <div class="row"><button id="go" type="button">BUAT LINK</button><button id="all" class="sec" type="button">SALIN SEMUA</button></div>
+  <div id="out"></div>
+</div>
+<script>
+  const $ = id => document.getElementById(id);
+  const base = () => location.origin + location.pathname.replace(/[^/]*$/, '') + $('tpl').value + (location.protocol === 'file:' ? '.html' : '');
+  const linkFor = n => base() + '?to=' + encodeURIComponent(n);
+  const msgFor = n => $('msg').value.replaceAll('{nama}', n).replaceAll('{link}', linkFor(n));
+  const names = () => $('names').value.split('\n').map(s => s.trim()).filter(Boolean);
+  async function copy(t, b){ try { await navigator.clipboard.writeText(t); } catch (e) { const a = document.createElement('textarea'); a.value = t; document.body.append(a); a.select(); document.execCommand('copy'); a.remove(); }
+    if (b) { const o = b.textContent; b.textContent = 'Tersalin ✓'; setTimeout(() => b.textContent = o, 1200); } }
+  function build(){
+    const out = $('out'); out.textContent = '';
+    names().forEach(n => {
+      const d = document.createElement('div'); d.className = 'item';
+      const b = document.createElement('b'); b.textContent = n;
+      const a = document.createElement('a'); a.className = 'l'; a.href = linkFor(n); a.target = '_blank'; a.textContent = linkFor(n);
+      const r = document.createElement('div'); r.className = 'row';
+      const c1 = document.createElement('button'); c1.className = 'sec'; c1.textContent = 'Salin link'; c1.onclick = () => copy(linkFor(n), c1);
+      const c2 = document.createElement('button'); c2.className = 'sec'; c2.textContent = 'Salin pesan'; c2.onclick = () => copy(msgFor(n), c2);
+      const wa = document.createElement('button'); wa.textContent = 'Kirim WhatsApp'; wa.onclick = () => window.open('https://wa.me/?text=' + encodeURIComponent(msgFor(n)), '_blank');
+      r.append(c1, c2, wa); d.append(b, a, r); out.append(d);
+    });
+  }
+  $('go').onclick = build;
+  $('all').onclick = e => copy(names().map(n => n + '\n' + linkFor(n)).join('\n\n'), e.target);
+</script>
+</body>
+</html>
