@@ -1,7 +1,7 @@
 ﻿{
   "cleanUrls": true,
   "headers": [
-    { "source": "/assets/(.*)\\.(png|jpg|svg)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }] },
-    { "source": "/assets/(.*)\\.(js|css)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }] }
+    { "source": "/assets/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }] },
+    { "source": "/assets/figma/(opsi\\.js|opsi\\.css)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }] }
   ]
 }
