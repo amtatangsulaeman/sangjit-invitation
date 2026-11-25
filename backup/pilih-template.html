@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pilih Template Sangjit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Pinyon+Script&display=swap" rel="stylesheet">
+<!-- Halaman sementara untuk memilih template. Hapus file ini dan ganti nama template terpilih menjadi index.html. -->
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{min-height:100svh;background:#8c0d12;color:#f6e3bf;font-family:'Cinzel',serif;padding:28px 16px 40px;
+    background-image:radial-gradient(ellipse at 50% 0,rgba(215,45,48,.5),transparent 70%)}
+  h1{font:36px 'Pinyon Script',cursive;text-align:center;color:#efc36e}
+  p.sub{text-align:center;font-size:11px;letter-spacing:.25em;margin:6px 0 24px;opacity:.85}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:460px;margin:0 auto}
+  a.card{display:block;text-decoration:none;color:inherit;border:1px solid rgba(239,195,110,.55);border-radius:12px;overflow:hidden;background:rgba(60,0,4,.35)}
+  a.card:active{transform:scale(.98)}
+  .thumb{aspect-ratio:9/14;overflow:hidden;position:relative;background:#5a0509}
+  .thumb iframe{position:absolute;left:0;top:0;width:402px;height:625px;border:0;pointer-events:none;transform-origin:0 0}
+  .label{padding:10px 10px 12px;text-align:center}
+  .label b{display:block;font-size:13px;letter-spacing:.12em;color:#efc36e}
+  .label span{display:block;font-size:9px;letter-spacing:.12em;margin-top:4px;opacity:.8}
+</style>
+</head>
+<body>
+  <h1>Ervina &amp; William</h1>
+  <p class="sub">PILIH TEMPLATE UNDANGAN</p>
+  <div class="grid">
+    <a class="card" href="opsi-1.html"><div class="thumb"><iframe src="opsi-1.html" loading="lazy" tabindex="-1"></iframe></div><div class="label"><b>OPSI 1</b><span>Cream &amp; sakura</span></div></a>
+    <a class="card" href="opsi-2.html"><div class="thumb"><iframe src="opsi-2.html" loading="lazy" tabindex="-1"></iframe></div><div class="label"><b>OPSI 2</b><span>Merah &amp; kipas</span></div></a>
+    <a class="card" href="opsi-3.html"><div class="thumb"><iframe src="opsi-3.html" loading="lazy" tabindex="-1"></iframe></div><div class="label"><b>OPSI 3</b><span>Classic gold</span></div></a>
+    <a class="card" href="opsi-4.html"><div class="thumb"><iframe src="opsi-4.html#open" loading="lazy" tabindex="-1"></iframe></div><div class="label"><b>OPSI 4</b><span>Kipas pembuka &amp; pemandangan</span></div></a>
+  </div>
+<script>
+  // scale each live preview to fit its card
+  function fit(){ document.querySelectorAll('.thumb').forEach(t => { t.firstElementChild.style.transform = 'scale(' + t.clientWidth / 402 + ')'; }); }
+  fit(); addEventListener('resize', fit);
+</script>
+</body>
+</html>

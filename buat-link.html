@@ -28,14 +28,6 @@
   <h1>Buat Link Undangan per Tamu</h1>
   <p class="h">Tulis satu nama per baris. Setiap tamu mendapat link sendiri dengan namanya di bagian "Kepada Yth."</p>
 
-  <label for="tpl">Template</label>
-  <select id="tpl">
-    <option value="opsi-4">Opsi 4 – Kipas</option>
-    <option value="opsi-1">Opsi 1</option>
-    <option value="opsi-2">Opsi 2</option>
-    <option value="opsi-3">Opsi 3</option>
-  </select>
-
   <label for="names">Nama tamu</label>
   <textarea id="names" placeholder="Bapak Budi Santoso&#10;Ibu Sari & Keluarga&#10;Kevin"></textarea>
 
@@ -53,7 +45,7 @@ Terima kasih.</textarea>
 </div>
 <script>
   const $ = id => document.getElementById(id);
-  const base = () => location.origin + location.pathname.replace(/[^/]*$/, '') + $('tpl').value + (location.protocol === 'file:' ? '.html' : '');
+  const base = () => location.origin + location.pathname.replace(/[^/]*$/, '') + (location.protocol === 'file:' ? 'index.html' : '');
   const linkFor = n => base() + '?to=' + encodeURIComponent(n);
   const msgFor = n => $('msg').value.replaceAll('{nama}', n).replaceAll('{link}', linkFor(n));
   const names = () => $('names').value.split('\n').map(s => s.trim()).filter(Boolean);

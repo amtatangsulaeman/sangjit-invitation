@@ -3,39 +3,128 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Pilih Template Sangjit</title>
+<title>Sangjit Ervina &amp; William</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Pinyon+Script&display=swap" rel="stylesheet">
-<!-- Halaman sementara untuk memilih template. Hapus file ini dan ganti nama template terpilih menjadi index.html. -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Cormorant+Garamond:wght@500;600&family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@500;900&family=Tangerine:wght@400;700&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/figma/opsi.css?v=202611250856">
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{min-height:100svh;background:#8c0d12;color:#f6e3bf;font-family:'Cinzel',serif;padding:28px 16px 40px;
-    background-image:radial-gradient(ellipse at 50% 0,rgba(215,45,48,.5),transparent 70%)}
-  h1{font:36px 'Pinyon Script',cursive;text-align:center;color:#efc36e}
-  p.sub{text-align:center;font-size:11px;letter-spacing:.25em;margin:6px 0 24px;opacity:.85}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:460px;margin:0 auto}
-  a.card{display:block;text-decoration:none;color:inherit;border:1px solid rgba(239,195,110,.55);border-radius:12px;overflow:hidden;background:rgba(60,0,4,.35)}
-  a.card:active{transform:scale(.98)}
-  .thumb{aspect-ratio:9/14;overflow:hidden;position:relative;background:#5a0509}
-  .thumb iframe{position:absolute;left:0;top:0;width:402px;height:625px;border:0;pointer-events:none;transform-origin:0 0}
-  .label{padding:10px 10px 12px;text-align:center}
-  .label b{display:block;font-size:13px;letter-spacing:.12em;color:#efc36e}
-  .label span{display:block;font-size:9px;letter-spacing:.12em;margin-top:4px;opacity:.8}
+  :root{--bg:#fbf3e4;--ink:#9e1b1b;--petal:#c8323a}
+  .seal{position:relative;width:62px;height:62px;flex:none}
+  .seal img{position:absolute;inset:0;width:100%;height:100%}
+  .seal span{position:absolute;left:12px;top:13px;font:38px/1 'Ma Shan Zheng',serif;color:#fbf3e4}
+  .names{display:flex;gap:14px;align-items:center}
+  .names > div{display:flex;flex-direction:column;align-items:center;gap:2px}
+  .nm{font:600 30px/1.2 'Cormorant Garamond',serif;letter-spacing:2px}
+  .sub{font-size:11px;letter-spacing:3px}
+  .date{display:flex;gap:16px;align-items:center}
+  .date .vr{width:1.5px;height:46px;background:var(--ink)}
+  /* intro fans, same as opsi-4 */
+  .curtain{background:#8c0d12 url(assets/scene-base.jpg) 50% 0/cover no-repeat !important;position:absolute;inset:0;z-index:20;cursor:pointer;transition:opacity .8s ease 1s;container-type:size;overflow:hidden}
+  .curtain.open{opacity:0;pointer-events:none}
+  .fanL,.fanR{position:absolute;width:166cqw;height:144.6cqw;margin:-72.3cqw 0 0 -83cqw;z-index:1}
+  .fanL{left:4.3cqw;top:36cqh;transform:rotate(96.03deg)} .fanR{left:100cqw;top:37.6cqh;transform:rotate(83.97deg) scaleY(-1)}
+  .fanL img,.fanR img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 8px 14px rgba(40,0,0,.5))}
+  .half{position:absolute;inset:0;z-index:1;transition:transform 1.6s cubic-bezier(.6,0,.2,1)}
+  .hr .fanR{}
+  .curtain.open .hl{transform:translateX(-105%)} .curtain.open .hr{transform:translateX(105%)}
+
+  .fanL{animation:breathe 3s ease-in-out infinite alternate} .fanR{animation:breathe 3s ease-in-out infinite alternate-reverse}
+  .curtain.open .fanL,.curtain.open .fanR{animation:none}
+  @keyframes breathe{to{translate:0 -6px}}
+  .tap{position:absolute;left:50%;top:87cqh;z-index:2;transform:translate(-50%,-50%);background:none !important;box-shadow:none !important;border:0 !important;text-align:center;color:#fbecd2;white-space:nowrap;padding:22px 26px;border-radius:16px;background:rgba(122,10,16,.93);border:1.5px solid #e9b45a;box-shadow:0 0 0 5px rgba(122,10,16,.93),0 0 0 6px rgba(233,180,90,.6),0 12px 30px rgba(30,0,0,.5);max-width:78%;
+    font:11px 'Cinzel',serif;letter-spacing:.3em;animation:blink 1.8s ease-in-out infinite;transition:opacity .4s}
+  .tap .who{display:block;margin-bottom:8px;font:30px 'Tangerine',cursive;letter-spacing:0;color:#efc36e}
+  .tap .yth{display:block;font:12px 'Cinzel',serif;letter-spacing:.22em;color:#fbecd2}
+  .tap .who{margin:6px 0 4px;font-size:34px;white-space:normal}
+  .tap .hint{display:block;margin-top:16px;font-size:9px;letter-spacing:.3em;opacity:.8;animation:blink 1.8s ease-in-out infinite}
+  .tap{animation:none;text-shadow:0 1px 6px rgba(60,0,0,.6)}
+  .curtain.open .tap{opacity:0}
+  .stage:not(.go) > :not(.curtain), .stage:not(.go) > :not(.curtain) *{animation-play-state:paused !important}
+  @keyframes blink{50%{opacity:.55}}
+  /* opsi-1 theme for the intro */
+  .curtain{background:#fbf3e4 radial-gradient(ellipse at 50% 85%,#fff9ee 0,#fbf3e4 45%,#f2e3c9 100%) !important}
+  .fanL img,.fanR img{filter:drop-shadow(0 8px 14px rgba(120,40,20,.28))}
+  .tap{color:#9e1b1b;text-shadow:0 1px 4px rgba(251,243,228,.9)}
+  .tap .yth{color:#9e1b1b} .tap .who{color:#c8323a}
+  .cdeco{position:absolute;z-index:0;pointer-events:none}
+  .cdeco img{width:100%;height:100%;object-fit:contain}
+  .curtain.open .cdeco{opacity:0;transition:opacity .6s}
+  .pinyon{font-family:'Tangerine',cursive !important;font-weight:700}
+  .tap .who{font-size:40px !important;font-weight:700}
+  .knob{position:absolute;left:50%;top:40cqh;z-index:3;width:116px;height:116px;margin:-58px 0 0 -58px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;text-align:center;background:rgba(251,243,228,.35);
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(158,27,27,.35);box-shadow:0 6px 24px rgba(120,30,20,.18);
+    font:10px/1.7 'Cinzel',serif;letter-spacing:.25em;color:#9e1b1b;transition:opacity .4s}
+  .knob span{animation:blink 1.8s ease-in-out infinite;padding-left:.25em}
+  .curtain.open .knob{opacity:0}
 </style>
 </head>
 <body>
-  <h1>Ervina &amp; William</h1>
-  <p class="sub">PILIH TEMPLATE UNDANGAN</p>
-  <div class="grid">
-    <a class="card" href="opsi-1.html"><div class="thumb"><iframe src="opsi-1.html" loading="lazy" tabindex="-1"></iframe></div><div class="label"><b>OPSI 1</b><span>Cream &amp; sakura</span></div></a>
-    <a class="card" href="opsi-2.html"><div class="thumb"><iframe src="opsi-2.html" loading="lazy" tabindex="-1"></iframe></div><div class="label"><b>OPSI 2</b><span>Merah &amp; kipas</span></div></a>
-    <a class="card" href="opsi-3.html"><div class="thumb"><iframe src="opsi-3.html" loading="lazy" tabindex="-1"></iframe></div><div class="label"><b>OPSI 3</b><span>Classic gold</span></div></a>
-    <a class="card" href="opsi-4.html"><div class="thumb"><iframe src="opsi-4.html#open" loading="lazy" tabindex="-1"></iframe></div><div class="label"><b>OPSI 4</b><span>Kipas pembuka &amp; pemandangan</span></div></a>
+<div class="stage">
+  <div class="opts"><button class="replay" type="button" aria-label="Putar ulang">&#8635;</button></div>
+
+  <div class="abs in-l" data-anchor="tl" style="--d:.6s;left:-48px;top:212px;width:150px;height:58px"><div class="drift" style="width:100%;height:100%"><img src="assets/figma/cloud2.webp" alt=""></div></div>
+  <div class="abs in-r" data-anchor="br" style="--d:.9s;left:300px;top:640px;width:165px;height:87px"><div class="drift rev" style="width:100%;height:100%"><img src="assets/figma/cloud1.webp" alt=""></div></div>
+
+  <div class="rot in-l" data-anchor="bl" style="--d:.7s;left:-110px;top:693px;width:304.865px;height:284.442px">
+    <div style="transform:rotate(27.02deg)"><div class="fanspin" style="width:242.441px;height:195.65px;transform-origin:50% 100%"><img src="assets/figma/fan1.webp" alt=""></div></div>
   </div>
+  <div class="rot in-br" data-anchor="br" style="--d:.3s;left:95px;top:700px;width:405.158px;height:313.43px">
+    <div style="transform:rotate(-158deg)"><div class="sway rev" style="width:359px;height:193px;transform-origin:100% 50%"><img src="assets/figma/tree2.webp" alt=""></div></div>
+  </div>
+  <div class="rot in-tl" data-anchor="tl" style="--d:0s;left:-70px;top:-55px;width:405.158px;height:313.43px">
+    <div style="transform:rotate(22deg)"><div class="sway" style="width:359px;height:193px;transform-origin:0 50%"><img src="assets/figma/tree2.webp" alt=""></div></div>
+  </div>
+
+  <div class="content" data-anchor="m" style="left:50%;top:185px;transform:translateX(-50%);gap:4px">
+    <div class="seal pop"><img src="assets/figma/seal-red.svg" alt=""><span>囍</span></div>
+    <div class="sp" style="height:14px"></div>
+    <p class="pinyon a" style="font-size:31px;line-height:1.1">together with their families</p>
+    <div class="sp" style="height:6px"></div>
+    <div class="names a">
+      <div><p class="nm">ERVINA</p><p class="cinzel sub">THERESA</p></div>
+      <p class="pinyon" style="font-size:54px">&amp;</p>
+      <div><p class="nm">WILLIAM</p><p class="cinzel sub">OCTAVIUS</p></div>
+    </div>
+    <div class="sp" style="height:8px"></div>
+    <p class="pinyon a" style="font-size:31px;line-height:1.1">invite you to the Sangjit ceremony</p>
+    <p class="a" style="font:500 16px 'Noto Serif SC',serif;letter-spacing:6px">订婚之喜</p>
+    <div class="sp" style="height:12px"></div>
+    <div class="date a">
+      <p class="cinzel sub" style="width:84px;text-align:center">MINGGU</p>
+      <div class="vr" style="height:70px"></div>
+      <div style="display:flex;flex-direction:column;align-items:center"><p class="cinzel sub" style="font-size:10px;letter-spacing:3px">DESEMBER</p><p class="corm" style="font-weight:600;font-size:52px;line-height:1">6</p><p class="cinzel sub" style="font-size:10px;letter-spacing:3px">2026</p></div>
+      <div class="vr" style="height:70px"></div>
+      <p class="cinzel sub" style="width:84px;text-align:center">10.30 WIB</p>
+    </div>
+    <div class="sp" style="height:14px"></div>
+    <p class="cinzel a" style="font-size:11px;letter-spacing:2.5px;line-height:22px">INTERCONTINENTAL BANDUNG<br>WEDDING HALL<br>JL. RESOR DAGO PAKAR RAYA 2B</p>
+  </div>
+
+  <div class="abs in-t" data-anchor="tr" style="--d:.5s;left:283px;top:-7px;width:93px;height:217px"><div class="swing" style="width:100%;height:100%"><img src="assets/figma/lamp.webp" alt=""></div></div>
+  <div class="curtain" id="curtain">
+    <div class="half hl"><div class="fanL"><img src="assets/layer-fan-cream.webp" alt=""></div></div>
+    <div class="half hr"><div class="fanR"><img src="assets/layer-fan-cream.webp" alt=""></div></div>
+    <div class="cdeco" style="left:-12cqw;top:-3cqh;width:80cqw;height:30cqh"><img src="assets/figma/tree2.webp" alt=""></div>
+    <div class="cdeco" style="right:-6cqw;top:0;width:22cqw;height:24cqh"><img src="assets/figma/lamp.webp" alt=""></div>
+    <div class="cdeco" style="right:-22cqw;bottom:-9cqh;width:56cqw;height:20cqh;transform:scale(-1,-1)"><img src="assets/figma/tree2.webp" alt=""></div>
+    <div class="knob"><span>KETUK<br>UNTUK<br>MEMBUKA</span></div>
+    <div class="tap"><span class="yth">YTH. BAPAK/IBU/SAUDARA/I</span><span class="who" id="guest">Nama Tamu</span><span class="yth">DIUNDANG DI ACARA INI</span></div>
+  </div>
+</div>
 <script>
-  // scale each live preview to fit its card
-  function fit(){ document.querySelectorAll('.thumb').forEach(t => { t.firstElementChild.style.transform = 'scale(' + t.clientWidth / 402 + ')'; }); }
-  fit(); addEventListener('resize', fit);
+  const stage = document.querySelector('.stage');
+  const cur = document.getElementById('curtain');
+  function openFans(){
+    if (cur.classList.contains('open')) return;
+    cur.classList.add('open');
+    setTimeout(() => stage.classList.add('go'), 700);
+  }
+  const to = new URLSearchParams(location.search).get('to');
+  if (to) document.getElementById('guest').textContent = to;
+  cur.addEventListener('click', openFans);
+  if (location.hash === '#open') openFans();
 </script>
+<script src="assets/figma/opsi.js?v=202611250856"></script>
 </body>
 </html>
