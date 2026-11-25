@@ -2,6 +2,8 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden}
 body{background:var(--bg);display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
+body.desk{background:#1a0204 !important;background-image:none !important}
+body.desk .stage{box-shadow:0 0 60px rgba(0,0,0,.6)}
 .stage{position:relative;width:402px;height:874px;flex:none;overflow:hidden;background:var(--bg);transform-origin:center}
 .abs{position:absolute}
 .abs img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}

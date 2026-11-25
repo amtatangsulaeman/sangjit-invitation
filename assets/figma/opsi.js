@@ -4,7 +4,9 @@
   // Fill the whole screen like index.html: scale by width (capped so short phones still fit),
   // then pin each decoration to its own corner via data-anchor (t/m/b + l/c/r).
   function fit(){
-    const W = innerWidth, H = innerHeight;
+    // on desktop/tablet keep a phone-shaped column (max 430px wide, centred)
+    const H = innerHeight, W = Math.min(innerWidth, 430, Math.round(H * 0.6));
+    document.body.classList.toggle('desk', innerWidth > W);
     const s = Math.min(W / 402, H / (window.FIT_H || 760));
     const sw = W / s, sh = H / s;
     stage.style.width = sw + 'px';
